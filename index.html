@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#22c55e">
+  <meta name="theme-color" content="#ffffff">
   
   <!-- PWA Meta Tags -->
   <link rel="manifest" href="manifest.json">
@@ -13,7 +13,7 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="EcoFriend">
   <meta name="application-name" content="EcoFriend">
-  <meta name="msapplication-TileColor" content="#22c55e">
+  <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
   
   <title>EcoFriend - Экологичное будущее</title>
@@ -396,8 +396,8 @@
               <small>Как часто синхронизировать данные</small>
             </div>
             <select id="setting-sync-interval" class="setting-select">
+              <option value="2">Каждые 2 минут</option>
               <option value="5">Каждые 5 минут</option>
-              <option value="15">Каждые 15 минут</option>
               <option value="30" selected>Каждые 30 минут</option>
               <option value="60">Каждый час</option>
             </select>
@@ -542,7 +542,6 @@
           <div class="ecocoins-label">ЭкоМонеты</div>
           <div class="ecocoins-value" id="profile-ecocoins">0</div>
         </div>
-        <button class="btn btn-primary" id="btn-view-shop">Магазин</button>
       </div>
 
       <!-- Eco Footprint Card -->
@@ -563,6 +562,20 @@
             <span id="preview-trees">0 деревьев</span>
           </div>
         </div>
+      </div>
+
+      <!-- Leaderboard Section -->
+      <div class="section-header">
+        <h3>🏆 Таблица лидеров</h3>
+        <select id="profile-leaderboard-type" class="leaderboard-select-mini">
+          <option value="global">Весь мир</option>
+          <option value="region">Регион</option>
+          <option value="friends">Друзья</option>
+        </select>
+      </div>
+      
+      <div class="leaderboard-list" id="profile-leaderboard-list">
+        <!-- Leaderboard will be generated dynamically -->
       </div>
 
       <div class="section-header">
@@ -668,58 +681,6 @@
     </div>
   </div>
 
-  <!-- Battles Screen -->
-  <div id="battles-screen" class="screen">
-    <div class="screen-header">
-      <h2>Битвы</h2>
-      <div></div>
-    </div>
-    
-    <div class="screen-content">
-      <div class="battle-card active">
-        <div class="battle-header">
-          <h3>⚔️ Еженедельная битва</h3>
-          <div class="battle-timer" id="battle-timer">
-            <span class="timer-icon">⏰</span>
-            <span id="battle-time-left">3 дня 12 часов</span>
-          </div>
-        </div>
-        
-        <div class="battle-stats">
-          <div class="battle-stat">
-            <span class="stat-label">Участников</span>
-            <span class="stat-value" id="battle-participants">0</span>
-          </div>
-          <div class="battle-stat">
-            <span class="stat-label">Ваше место</span>
-            <span class="stat-value" id="battle-rank">-</span>
-          </div>
-          <div class="battle-stat">
-            <span class="stat-label">Ваш счет</span>
-            <span class="stat-value" id="battle-score">0</span>
-          </div>
-        </div>
-        
-        <div class="battle-prize">
-          <span class="prize-label">Награда победителю</span>
-          <span class="prize-value">1000 ЭкоМонет 💰</span>
-        </div>
-        
-        <button class="btn btn-primary btn-full" id="btn-join-battle">
-          Присоединиться к битве
-        </button>
-      </div>
-
-      <div class="section-header">
-        <h3>Топ участников</h3>
-      </div>
-      
-      <div class="battle-leaderboard" id="battle-leaderboard">
-        <!-- Battle leaderboard will be generated dynamically -->
-      </div>
-    </div>
-  </div>
-
   <!-- Eco Footprint Modal -->
   <div id="footprint-modal" class="modal">
     <div class="modal-content">
@@ -806,9 +767,9 @@
     
     <button class="nav-item" data-screen="shop">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="9" cy="21" r="1"/>
-        <circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
       </svg>
       <span>Магазин</span>
     </button>
@@ -859,7 +820,6 @@
   <script type="module" src="storage.js"></script>
   <script type="module" src="scanner.js"></script>
   <script type="module" src="gamification.js"></script>
-  <script type="module" src="barcode.js"></script>
   <script type="module" src="app-extensions.js"></script>
   <script type="module" src="script.js"></script>
   
