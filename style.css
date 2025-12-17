@@ -1084,7 +1084,7 @@ body {
     background: #e5e7eb;
   }
   
-  .screen, .bottom-nav {
+  .screen {
     max-width: 480px;
     margin: 0 auto;
     left: 50%;
@@ -1097,6 +1097,14 @@ body {
   
   .screen.prev {
     transform: translateX(-50%) translateX(-30%);
+  }
+  
+  /* FIXED: Bottom navigation centering on desktop */
+  .bottom-nav {
+    max-width: 480px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%) translateY(100%);
   }
   
   .bottom-nav.visible {
