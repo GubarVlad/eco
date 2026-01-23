@@ -39,7 +39,7 @@
 
 html, body {
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden; /* Prevent horizontal scroll globally */
 }
 
 body {
@@ -57,7 +57,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100%; /* Keep for mobile */
   height: 100%;
   background: var(--bg-secondary);
   display: flex;
@@ -67,7 +67,7 @@ body {
   transform: translateX(100%);
   transition: var(--transition);
   z-index: 1;
-  overflow: hidden;
+  overflow: hidden; /* Keep hidden for mobile to clip content if needed */
   visibility: hidden;
 }
 
@@ -76,6 +76,7 @@ body {
   pointer-events: auto;
   transform: translateX(0);
   z-index: 10;
+  /* For mobile, screen.active handles its own overflow-y: auto via screen-content */
   visibility: visible;
 }
 
@@ -472,6 +473,16 @@ body {
   transition: var(--transition);
 }
 
+/* Secondary scan button (barcode) */
+.btn-scan.secondary {
+  margin-top: 12px;
+  background: linear-gradient(135deg, var(--accent), #6366f1);
+}
+
+.scan-button-container .btn-scan + .btn-scan {
+  margin-top: 12px;
+}
+
 .btn-scan:active {
   transform: scale(0.98);
   box-shadow: var(--shadow);
@@ -543,7 +554,8 @@ body {
 }
 
 /* ===== Scanner Screen ===== */
-#scanner-screen {
+#scanner-screen,
+#barcode-screen {
   background: #000;
   padding: 0;
 }
@@ -876,6 +888,32 @@ body {
   color: var(--text-secondary);
 }
 
+.profile-badge-display {
+  display: none; /* Hidden by default, shown via JS */
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 6px 12px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  max-width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+.leaderboard-badge {
+  display: inline-block;
+  margin-right: 4px;
+  font-size: 16px;
+}
+
+.profile-badge-icon {
+  font-size: 16px;
+}
+
 .profile-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1079,16 +1117,29 @@ body {
 @media (min-width: 768px) {
   body {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
     background: #e5e7eb;
+    padding: 20px; /* Add padding to create the "gray frames" effect */
   }
   
   .screen {
-    max-width: 480px;
+    max-width: 900px; /* Increased max-width for tablets */
+    width: 100%; /* Ensure it takes full width up to max-width */
     margin: 0 auto;
     left: 50%;
     transform: translateX(-50%) translateX(100%);
+    border-radius: var(--radius-lg); /* Add border-radius for a card-like appearance */
+    box-shadow: var(--shadow-xl); /* Add shadow for depth */
+    overflow: hidden; /* Ensure content doesn't spill out of rounded corners */
+  }
+  
+  .bottom-nav {
+    max-width: 900px; /* Match screen max-width */
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg); /* Match screen bottom corners */
   }
   
   .screen.active {
@@ -1099,26 +1150,123 @@ body {
     transform: translateX(-50%) translateX(-30%);
   }
   
-  /* FIXED: Bottom navigation centering on desktop */
-  .bottom-nav {
-    max-width: 480px;
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%) translateY(100%);
-  }
-  
-  .bottom-nav.visible {
-    transform: translateX(-50%) translateY(0);
-  }
-  
   #scanner-screen {
     max-width: 100%;
     left: 0;
     transform: translateX(100%);
+    border-radius: 0; /* No rounded corners for full-screen scanner */
+    box-shadow: none;
   }
   
   #scanner-screen.active {
     transform: translateX(0);
+  }
+
+  /* Tablet-specific layout adjustments */
+  .screen-content {
+    padding: 24px 32px; /* More generous padding */
+  }
+
+  .screen-header {
+    padding: 20px 32px; /* Match content padding */
+  }
+
+  .welcome-content {
+    max-width: 500px; /* Make welcome content a bit wider */
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr); /* Already set at 640px, but confirm */
+    gap: 16px;
+  }
+
+  .scan-button-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Two columns for scan buttons */
+    gap: 16px;
+  }
+
+  .btn-scan {
+    margin-top: 0 !important; /* Override default margin */
+  }
+
+  .activity-list,
+  .quests-list,
+  .achievements,
+  .scan-history,
+  .leaderboard-list {
+    display: grid; /* Use grid for multi-column layout */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 2 columns, flexible */
+    gap: 16px;
+  }
+
+  .quest-card,
+  .achievement-card,
+  .activity-item,
+  .history-item,
+  .leaderboard-item {
+    padding: 20px; /* Slightly larger padding */
+  }
+
+  .bottom-nav {
+    padding: 12px; /* Slightly larger padding for nav items */
+  }
+
+  .nav-item {
+    font-size: 14px; /* Slightly larger font size for nav items */
+    padding: 10px;
+  }
+
+  /* Modal adjustments for tablets */
+  .modal {
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+  }
+
+  .modal-content {
+    border-radius: var(--radius-xl); /* All corners rounded for centered modal */
+    transform: none; /* Remove initial transform for slide-up */
+    top: 50%; /* Position for centering */
+    left: 50%; /* Position for centering */
+    transform: translate(-50%, -50%); /* Centering transform */
+    max-width: 600px; /* A good max-width for general modals on tablets */
+    width: 90%; /* Take 90% of available width */
+  }
+
+  .modal.show .modal-content {
+    transform: translate(-50%, -50%); /* Maintain centering */
+    animation: scaleIn 0.3s ease-out; /* Use scale-in animation */
+  }
+
+  /* Specific modals that should be smaller */
+  #confirmation-modal .modal-content,
+  #waste-type-modal .modal-content {
+    max-width: 360px; /* Keep these modals smaller */
+  }
+
+  /* Barcode result modal should also be centered and scale in */
+  #barcode-result-modal .modal-content {
+    transform: translate(-50%, -50%); /* Remove slide-up */
+    animation: scaleIn 0.3s ease-out; /* Use scale-in */
+    max-width: 500px; /* Adjust as needed */
+  }
+
+  /* Shop grid for tablets */
+  .shop-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 600px; /* Constrain width for better appearance */
+    margin: 0 auto;
+  }
+
+  /* Recycling Guide for tablets */
+  .recycling-guide-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+  }
+
+  .recycling-category {
+    margin-bottom: 0; /* Remove bottom margin if in grid */
   }
 }
 
@@ -1131,6 +1279,32 @@ body {
   .scanner-header {
     padding-top: max(16px, env(safe-area-inset-top));
   }
+}
+
+/* New media query for larger desktops (optional, but good for very wide screens) */
+@media (min-width: 1200px) {
+  body {
+    padding: 40px; /* More padding for very large screens */
+  }
+
+  .screen, .bottom-nav {
+    max-width: 1024px; /* Even wider for large desktops */
+  }
+
+  .activity-list,
+  .quests-list,
+  .achievements,
+  .scan-history,
+  .leaderboard-list,
+  .recycling-guide-content {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Can go to 3 columns */
+  }
+}
+
+/* Keyframe for modal scale-in animation */
+@keyframes scaleIn {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
 /* ===== Enhanced Statistics ===== */
@@ -1171,18 +1345,23 @@ body {
 .chart-bars {
   display: flex;
   align-items: flex-end;
-  justify-content: space-around;
+  justify-content: center; /* Center the bars in the container */
   height: 180px;
-  gap: 8px;
   margin-bottom: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px; /* Space for scrollbar */
+  gap: 20px; /* Give even more space between bars */
 }
 
 .chart-bar {
-  flex: 1;
+  flex: 0 0 60px; /* Give each bar a fixed, wider base */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  min-width: 60px;
+  text-align: center; /* Center the label text when it wraps */
 }
 
 .bar-container {
@@ -1235,6 +1414,11 @@ body {
   border-radius: var(--radius-full);
   overflow: hidden;
   margin-top: 8px;
+}
+
+/* Modal content default border-radius for mobile bottom sheet */
+.modal-content {
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
 .waste-progress-bar {
@@ -1575,4 +1759,302 @@ body {
   visibility: visible !important;
   position: relative !important;
   z-index: 10 !important;
+}
+
+/* ===== Waste Type Selection Modal ===== */
+.waste-type-modal {
+  max-width: 400px;
+  border-radius: var(--radius-xl);
+}
+
+.waste-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 20px 0;
+}
+
+.waste-option {
+  padding: 20px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.waste-option:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--primary);
+  transform: scale(1.02);
+}
+
+.waste-option:active {
+  transform: scale(0.98);
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* ===== Barcode Info Display ===== */
+.barcode-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.barcode-info-row:last-child {
+  border-bottom: none;
+}
+
+.barcode-info-row .label {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.barcode-info-row span:last-child {
+  color: var(--text-primary);
+  font-weight: 500;
+  text-align: right;
+  flex: 1;
+  margin-left: 16px;
+}
+
+/* Ensure barcode result modal is on top */
+#barcode-result-modal { z-index: 1001; }
+ 
+/* ===== Loading State ===== */
+.loading-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+  font-size: 16px;
+}
+
+/* ===== QuaggaJS Overlay Styles ===== */
+#barcode-camera-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#barcode-camera-container canvas,
+#barcode-camera-container video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#barcode-camera-container .drawingBuffer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* ===== Barcode Result Enhanced Styles ===== */
+.barcode-product-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.barcode-product-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.barcode-waste-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+}
+
+.barcode-waste-badge.waste-type-plastic {
+  background: #e0f2fe;
+  border-color: #0ea5e9;
+  color: #0369a1;
+}
+
+.barcode-waste-badge.waste-type-paper {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.barcode-waste-badge.waste-type-glass {
+  background: #dbeafe;
+  border-color: #3b82f6;
+  color: #1e40af;
+}
+
+.barcode-waste-badge.waste-type-metal {
+  background: #e5e7eb;
+  border-color: #6b7280;
+  color: #374151;
+}
+
+.barcode-info-section {
+  margin-bottom: 20px;
+}
+
+.waste-type-value {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.green-score-value {
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius);
+}
+
+.green-score-value.score-excellent {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.green-score-value.score-good {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.green-score-value.score-fair {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.green-score-value.score-poor {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.recycling-tips {
+  margin-top: 20px;
+  padding: 16px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  border-left: 4px solid var(--primary);
+}
+
+.recycling-tips h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: var(--text-primary);
+}
+
+.recycling-tips p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.barcode-actions {
+  margin-top: 24px;
+}
+
+/* ===== Recycling Guide Screen ===== */
+.recycling-guide-content {
+  padding: 20px;
+  padding-bottom: 100px;
+}
+
+.recycling-category {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+}
+
+.category-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.category-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.category-content {
+  padding: 20px;
+}
+
+.category-description {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.recycling-tips ul {
+  margin: 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.recycling-tips li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.plastic-types {
+  margin-top: 20px;
+}
+
+.plastic-types h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  color: var(--text-primary);
+}
+
+.plastic-type-item {
+  padding: 12px;
+  margin-bottom: 8px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+.plastic-type-item strong {
+  color: var(--text-primary);
+  font-weight: 600;
 }
