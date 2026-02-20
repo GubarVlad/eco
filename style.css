@@ -11,8 +11,8 @@
   --bg-tertiary: #f3f4f6;
   
   --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --text-tertiary: #9ca3af;
+  --text-secondary: #4b5563; /* Visual fix: Improved contrast from #6b7280 for WCAG AA */
+  --text-tertiary: #6b7280; /* Visual fix: Improved contrast from #9ca3af */
   
   --border: #e5e7eb;
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -20,10 +20,10 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   
-  --radius-sm: 8px;
-  --radius: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
+  --radius-sm: 12px;
+  --radius: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --radius-full: 9999px;
   
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -40,11 +40,13 @@
 html, body {
   height: 100%;
   overflow-x: hidden; /* Prevent horizontal scroll globally */
+  width: 100%; /* Visual fix: Ensure body doesn't exceed viewport */
+  max-width: 100vw; /* Visual fix: Prevent content from causing horizontal scroll */
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background: var(--bg-secondary);
+  background: #ffffff;
   color: var(--text-primary);
   font-size: 16px;
   line-height: 1.5;
@@ -94,6 +96,7 @@ body {
   border-bottom: 1px solid var(--border);
   min-height: 60px;
   flex-shrink: 0;
+  gap: 12px; /* Visual fix: Added gap to prevent elements from touching */
 }
 
 .screen-header h2 {
@@ -101,6 +104,9 @@ body {
   font-weight: 600;
   flex: 1;
   text-align: center;
+  overflow: hidden; /* Visual fix: Prevent text overflow */
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* FIXED: Header actions container */
@@ -150,10 +156,14 @@ body {
 
 /* ===== Welcome Screen ===== */
 #welcome-screen {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  background: var(--bg-primary);
   justify-content: center;
   align-items: center;
   padding: 40px;
+}
+
+#register-screen {
+  background: var(--bg-primary);
 }
 
 .welcome-content {
@@ -179,13 +189,13 @@ body {
 .welcome-title {
   font-size: 36px;
   font-weight: 700;
-  color: white;
+  color: var(--text-primary);
   margin-bottom: 12px;
 }
 
 .welcome-subtitle {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text-secondary);
   margin-bottom: 48px;
   line-height: 1.6;
 }
@@ -197,6 +207,7 @@ body {
 }
 
 /* ===== Buttons ===== */
+/* Visual fix: Consistent button spacing and overflow prevention */
 .btn {
   display: flex;
   align-items: center;
@@ -211,6 +222,35 @@ body {
   transition: var(--transition);
   outline: none;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 48px;
+}
+
+/* Visual fix: Add focus states for accessibility */
+.btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.btn svg,
+.btn-icon svg,
+.btn-back svg,
+.btn-close svg,
+.btn-close-modal svg,
+.nav-item svg,
+.screen-header svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+  flex-shrink: 0;
+  display: block;
+}
+
+.btn-scan svg {
+  width: 32px;
+  height: 32px;
 }
 
 .btn-primary {
@@ -282,6 +322,13 @@ body {
   transform: scale(0.95);
 }
 
+/* Visual fix: Add focus states for icon buttons */
+.btn-back:focus-visible, .btn-icon:focus-visible, .btn-close:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  background: var(--bg-secondary);
+}
+
 /* Pending scans badge - SEE LINE 1380 FOR MAIN BADGE STYLES */
 
 /* ===== Forms ===== */
@@ -314,9 +361,11 @@ body {
   outline: none;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group input:focus-visible {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  outline: none; /* Visual fix: Use custom focus style instead of default outline */
 }
 
 /* ===== User Card ===== */
@@ -329,6 +378,8 @@ body {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   margin-bottom: 16px;
+  min-height: 88px;
+  flex-wrap: wrap;
 }
 
 .user-avatar {
@@ -377,23 +428,24 @@ body {
 
 /* ===== Progress Card ===== */
 .progress-card {
-  padding: 16px 20px;
+  padding: 20px;
   background: var(--bg-primary);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .progress-info {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   font-size: 14px;
   color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .progress-bar {
-  height: 8px;
+  height: 10px;
   background: var(--bg-tertiary);
   border-radius: var(--radius-full);
   overflow: hidden;
@@ -418,16 +470,22 @@ body {
 @media (min-width: 640px) {
   .stats-grid {
     grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
   }
 }
 
 .stat-card {
-  padding: 16px;
+  padding: 20px;
   background: var(--bg-primary);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
   text-align: center;
   transition: var(--transition);
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .stat-card:active {
@@ -435,19 +493,20 @@ body {
 }
 
 .stat-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: 40px;
+  margin-bottom: 12px;
 }
 
 .stat-value {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .stat-label {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
+  font-weight: 500;
 }
 
 /* ===== Scan Button ===== */
@@ -471,6 +530,14 @@ body {
   box-shadow: var(--shadow-lg);
   cursor: pointer;
   transition: var(--transition);
+  min-height: 56px;
+  overflow: hidden;
+}
+
+/* Visual fix: Add focus state for scan buttons */
+.btn-scan:focus-visible {
+  outline: 3px solid rgba(34, 197, 94, 0.4);
+  outline-offset: 2px;
 }
 
 /* Secondary scan button (barcode) */
@@ -498,6 +565,13 @@ body {
   font-weight: 600;
 }
 
+.section-header.tanks-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 /* ===== Activity List ===== */
 .activity-list {
   display: flex;
@@ -509,10 +583,11 @@ body {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px;
+  padding: 18px 20px;
   background: var(--bg-primary);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  min-height: 90px;
 }
 
 .activity-icon {
@@ -527,11 +602,11 @@ body {
 .activity-title {
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .activity-time {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
@@ -542,9 +617,19 @@ body {
 }
 
 .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
   text-align: center;
   padding: 40px 20px;
   color: var(--text-secondary);
+  min-height: 200px; /* Visual fix: Ensure empty states have minimum height */
+}
+
+.empty-state .btn {
+  margin-top: 8px;
 }
 
 .empty-state-hint {
@@ -651,6 +736,101 @@ body {
   z-index: 10;
 }
 
+.scanner-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 20% 20%, rgba(34, 197, 94, 0.2), rgba(0, 0, 0, 0.95) 50%),
+              radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.18), rgba(0, 0, 0, 0.9) 55%),
+              linear-gradient(180deg, rgba(2, 6, 12, 0.9), rgba(0, 0, 0, 0.98));
+  z-index: 30;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.scanner-loading.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scanner-loading-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 28px 30px;
+  border-radius: 24px;
+  background: rgba(10, 15, 24, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  min-width: 240px;
+}
+
+.scanner-loading-visual {
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scanner-loading-svg {
+  width: 160px;
+  height: 160px;
+}
+
+.scanner-loading-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.scanner-loading-subtitle {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.gear-body {
+  fill: rgba(255, 255, 255, 0.04);
+  stroke: rgba(255, 255, 255, 0.75);
+  stroke-width: 3;
+}
+
+.gear-hole {
+  fill: rgba(0, 0, 0, 0.8);
+  stroke: rgba(255, 255, 255, 0.45);
+  stroke-width: 2;
+}
+
+.gear-tooth {
+  fill: rgba(255, 255, 255, 0.9);
+}
+
+.gear-large {
+  transform-origin: 0 0;
+  animation: gear-rotate 6s linear infinite;
+}
+
+.gear-small {
+  transform-origin: 0 0;
+  animation: gear-rotate-reverse 4s linear infinite;
+}
+
+@keyframes gear-rotate {
+  from { transform: translate(70px, 75px) rotate(0deg); }
+  to { transform: translate(70px, 75px) rotate(360deg); }
+}
+
+@keyframes gear-rotate-reverse {
+  from { transform: translate(135px, 125px) rotate(0deg); }
+  to { transform: translate(135px, 125px) rotate(-360deg); }
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
   50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.03); }
@@ -658,7 +838,7 @@ body {
 
 .scanner-result {
   position: absolute;
-  bottom: 120px;
+  bottom: 150px;
   left: 20px;
   right: 20px;
   padding: 16px 20px;
@@ -687,6 +867,8 @@ body {
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
+  display: flex; /* Visual fix: Added for better button layout */
+  gap: 12px; /* Visual fix: Space between buttons if multiple */
 }
 
 .btn-capture {
@@ -696,6 +878,14 @@ body {
   border-radius: var(--radius-full);
   box-shadow: var(--shadow-xl);
   font-size: 0;
+  position: relative;
+  overflow: visible; /* Visual fix: Allow shadow and focus ring to show */
+}
+
+/* Visual fix: Add focus state for capture button */
+.btn-capture:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 4px;
 }
 
 .btn-capture span {
@@ -712,21 +902,27 @@ body {
 }
 
 /* ===== Statistics Screen ===== */
+/* UI Improvement: Larger, more readable stats summary with better spacing */
 .stats-summary {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-bottom: 24px;
 }
 
 .summary-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 16px;
-  padding: 20px;
+  text-align: center;
+  gap: 12px;
+  padding: 20px 16px;
   background: var(--bg-primary);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
+  transition: var(--transition);
+  min-height: 140px;
+  justify-content: center;
 }
 
 .summary-icon {
@@ -735,17 +931,24 @@ body {
 
 .summary-content {
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .summary-value {
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
+  color: var(--primary);
 }
 
 .summary-label {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
+  line-height: 1.3;
+  font-weight: 500;
 }
 
 .waste-breakdown {
@@ -771,18 +974,20 @@ body {
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  gap: 12px;
 }
 
 .waste-item-left {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex: 1;
   min-width: 0;
 }
 
 .waste-icon {
-  font-size: 24px;
+  font-size: 28px;
+  flex-shrink: 0;
 }
 
 .waste-name {
@@ -793,24 +998,24 @@ body {
 .waste-item-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   flex-shrink: 0;
-  min-width: 120px;
+  min-width: 140px;
   justify-content: flex-end;
 }
 
 .waste-count {
   font-size: 18px;
   font-weight: 700;
-  min-width: 32px;
+  min-width: 36px;
   text-align: right;
 }
 
 .waste-points {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--primary);
   font-weight: 600;
-  min-width: 48px;
+  min-width: 56px;
   text-align: right;
 }
 
@@ -823,15 +1028,18 @@ body {
 .history-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px;
+  gap: 16px;
+  padding: 18px 20px;
   background: var(--bg-primary);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  min-height: 80px;
+  transition: var(--transition);
 }
 
 .history-icon {
-  font-size: 24px;
+  font-size: 28px;
+  flex-shrink: 0;
 }
 
 .history-info {
@@ -839,18 +1047,18 @@ body {
 }
 
 .history-type {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .history-date {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
 .history-points {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--primary);
 }
@@ -921,24 +1129,37 @@ body {
   margin-bottom: 32px;
 }
 
+@media (min-width: 640px) {
+  .profile-stats {
+    gap: 16px;
+  }
+}
+
 .profile-stat {
-  padding: 20px;
+  padding: 24px 20px;
   background: var(--bg-primary);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
   text-align: center;
+  transition: var(--transition);
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-stat-value {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
   color: var(--primary);
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .profile-stat-label {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .achievements {
@@ -1006,9 +1227,9 @@ body {
   display: flex;
   background: var(--bg-primary);
   border-top: 1px solid var(--border);
-  padding: 8px;
+  padding: 8px 4px; /* Visual fix: Reduced horizontal padding for better mobile fit */
   padding-bottom: max(8px, env(safe-area-inset-bottom));
-  z-index: 9999; /* Increased from 100 to ensure visibility above all content */
+  z-index: 100; /* Visual fix: Simplified z-index hierarchy (nav: 100, modals: 1000, overlays: 10000) */
   opacity: 0;
   transform: translateY(100%);
   transition: var(--transition);
@@ -1028,15 +1249,17 @@ body {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  padding: 8px;
+  padding: 10px 6px;
   border: none;
   background: transparent;
   color: var(--text-tertiary);
   border-radius: var(--radius);
   cursor: pointer;
   transition: var(--transition);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
+  min-width: 0;
+  min-height: 48px;
 }
 
 .nav-item svg {
@@ -1051,6 +1274,13 @@ body {
   background: var(--bg-tertiary);
 }
 
+/* Visual fix: Add focus state for keyboard navigation */
+.nav-item:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
+  background: var(--bg-secondary);
+}
+
 /* ===== Loading Overlay ===== */
 .loading-overlay {
   position: fixed;
@@ -1063,7 +1293,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: 5000; /* Visual fix: Global overlays use 5000+ z-index */
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -1100,11 +1330,12 @@ body {
   font-size: 14px;
   font-weight: 500;
   box-shadow: var(--shadow-xl);
-  z-index: 10000;
+  z-index: 10000; /* Visual fix: Toasts above modals */
   opacity: 0;
   pointer-events: none;
   transition: var(--transition);
   max-width: 90%;
+  word-wrap: break-word; /* Visual fix: Prevent text overflow */
   text-align: center;
 }
 
@@ -1117,28 +1348,29 @@ body {
 @media (min-width: 768px) {
   body {
     display: flex;
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
+    align-items: center;
+    justify-content: center;
     background: #e5e7eb;
-    padding: 20px; /* Add padding to create the "gray frames" effect */
+    padding: 20px;
   }
   
   .screen {
-    max-width: 900px; /* Increased max-width for tablets */
-    width: 100%; /* Ensure it takes full width up to max-width */
+    max-width: 900px;
+    width: 100%;
     margin: 0 auto;
     left: 50%;
     transform: translateX(-50%) translateX(100%);
-    border-radius: var(--radius-lg); /* Add border-radius for a card-like appearance */
-    box-shadow: var(--shadow-xl); /* Add shadow for depth */
-    overflow: hidden; /* Ensure content doesn't spill out of rounded corners */
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
   }
   
   .bottom-nav {
     max-width: 900px; /* Match screen max-width */
     margin: 0 auto;
-    left: 0;
-    right: 0;
+    left: 50%; /* Visual fix: Center the nav bar */
+    right: auto; /* Visual fix: Remove right positioning */
+    transform: translateX(-50%); /* Visual fix: Center using transform */
     border-radius: 0 0 var(--radius-lg) var(--radius-lg); /* Match screen bottom corners */
   }
   
@@ -1165,6 +1397,7 @@ body {
   /* Tablet-specific layout adjustments */
   .screen-content {
     padding: 24px 32px; /* More generous padding */
+    padding-bottom: 100px; /* Visual fix: Increased from default to ensure content clears bottom nav */
   }
 
   .screen-header {
@@ -1173,6 +1406,8 @@ body {
 
   .welcome-content {
     max-width: 500px; /* Make welcome content a bit wider */
+    width: 100%; /* Visual fix: Ensure it doesn't overflow */
+    padding: 0 20px; /* Visual fix: Add padding to prevent edge touching */
   }
 
   .stats-grid {
@@ -1225,30 +1460,28 @@ body {
 
   .modal-content {
     border-radius: var(--radius-xl); /* All corners rounded for centered modal */
-    transform: none; /* Remove initial transform for slide-up */
-    top: 50%; /* Position for centering */
-    left: 50%; /* Position for centering */
-    transform: translate(-50%, -50%); /* Centering transform */
+    transform: scale(0.9); /* Visual fix: Initial state for scale animation */
+    position: relative; /* Visual fix: Remove absolute positioning */
     max-width: 600px; /* A good max-width for general modals on tablets */
     width: 90%; /* Take 90% of available width */
+    max-height: 85vh; /* Visual fix: Prevent modals from being too tall */
   }
 
   .modal.show .modal-content {
-    transform: translate(-50%, -50%); /* Maintain centering */
-    animation: scaleIn 0.3s ease-out; /* Use scale-in animation */
+    transform: scale(1); /* Visual fix: Scale to normal size */
+    animation: modalFadeIn 0.3s ease-out; /* Use fade-in animation */
   }
 
   /* Specific modals that should be smaller */
   #confirmation-modal .modal-content,
   #waste-type-modal .modal-content {
-    max-width: 360px; /* Keep these modals smaller */
+    max-width: 400px; /* Visual fix: Adjusted from 360px for better mobile fit */
   }
 
   /* Barcode result modal should also be centered and scale in */
   #barcode-result-modal .modal-content {
-    transform: translate(-50%, -50%); /* Remove slide-up */
-    animation: scaleIn 0.3s ease-out; /* Use scale-in */
-    max-width: 500px; /* Adjust as needed */
+    animation: modalFadeIn 0.3s ease-out; /* Visual fix: Use consistent animation */
+    max-width: 500px;
   }
 
   /* Shop grid for tablets */
@@ -1268,6 +1501,34 @@ body {
   .recycling-category {
     margin-bottom: 0; /* Remove bottom margin if in grid */
   }
+
+  /* NEW: Tablet layout for enhanced metrics - side by side */
+  .enhanced-metrics {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .metric-card {
+    padding: 20px 16px;
+  }
+
+  /* NEW: Tablet layout for composition chart - better spacing */
+  .composition-chart {
+    padding: 24px;
+  }
+
+  #waste-pie-chart {
+    max-width: 250px;
+  }
+
+  /* NEW: Larger chart bars on tablets for better visibility */
+  .chart-bars {
+    gap: 12px;
+  }
+
+  .chart-bar {
+    flex: 0 0 50px;
+    min-width: 50px;
+  }
 }
 
 /* ===== Safe Area ===== */
@@ -1278,6 +1539,12 @@ body {
   
   .scanner-header {
     padding-top: max(16px, env(safe-area-inset-top));
+  }
+  
+  /* Visual fix: Ensure welcome screen respects safe area on notched devices */
+  #welcome-screen {
+    padding-top: max(40px, env(safe-area-inset-top));
+    padding-bottom: max(40px, env(safe-area-inset-bottom));
   }
 }
 
@@ -1307,18 +1574,27 @@ body {
   100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 
+/* Visual fix: Add modal fade-in animation for tablets */
+@keyframes modalFadeIn {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 /* ===== Enhanced Statistics ===== */
 .period-selector {
   display: flex;
-  gap: 6px;
+  gap: 4px;
   background: var(--bg-secondary);
-  padding: 4px;
+  padding: 6px;
   border-radius: var(--radius-sm);
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .period-btn {
-  padding: 6px 12px;
-  font-size: 13px;
+  padding: 8px 12px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--text-secondary);
   background: transparent;
@@ -1326,6 +1602,17 @@ body {
   border-radius: 6px;
   cursor: pointer;
   transition: var(--transition);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+/* Visual fix: Add focus state for period buttons */
+.period-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: -2px;
 }
 
 .period-btn.active {
@@ -1334,34 +1621,35 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
+/* UI Improvement: Well-spaced activity chart */
 .activity-chart {
   background: var(--bg-primary);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   padding: 20px;
   margin: 16px 0;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow);
 }
 
 .chart-bars {
   display: flex;
   align-items: flex-end;
-  justify-content: center; /* Center the bars in the container */
-  height: 180px;
+  justify-content: center;
+  height: 160px;
   margin-bottom: 16px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  padding-bottom: 10px; /* Space for scrollbar */
-  gap: 20px; /* Give even more space between bars */
+  padding: 0 12px 12px 12px;
+  gap: 8px;
 }
 
 .chart-bar {
-  flex: 0 0 60px; /* Give each bar a fixed, wider base */
+  flex: 0 0 42px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  min-width: 60px;
-  text-align: center; /* Center the label text when it wraps */
+  gap: 6px;
+  min-width: 42px;
+  text-align: center;
 }
 
 .bar-container {
@@ -1370,14 +1658,14 @@ body {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  height: 140px;
+  height: 110px;
   position: relative;
 }
 
 .bar {
   width: 100%;
   background: linear-gradient(to top, var(--primary), var(--secondary));
-  border-radius: 6px 6px 0 0;
+  border-radius: 4px 4px 0 0;
   min-height: 4px;
   transition: var(--transition);
   position: relative;
@@ -1391,29 +1679,168 @@ body {
 }
 
 .bar-value {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 4px;
 }
 
 .chart-legend {
+  display: none;
+}
+
+/* UI Improvement: Well-spaced enhanced metrics */
+.enhanced-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+  margin-top: 16px;
+}
+
+.metric-card {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 16px;
+  padding: 16px 12px;
+  background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  text-align: center;
+  min-height: 110px;
+  transition: var(--transition);
+}
+
+.metric-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.metric-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.metric-label {
   font-size: 12px;
   color: var(--text-secondary);
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+/* UI Improvement: Larger, more readable section headers */
+.section-header {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* UI Improvement: Larger, well-spaced composition chart */
+.composition-chart {
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  margin: 16px 0;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+#waste-pie-chart {
+  max-width: 280px;
+  height: auto;
+  width: 100%;
+}
+
+/* NEW: Composition legend - styled legend items with better spacing */
+.composition-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+}
+
+.legend-color {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.legend-label {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+/* Enhanced visual distinction for waste item cards with better spacing */
+.waste-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px;
+  background: var(--bg-primary);
+  border-left: 4px solid transparent;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.waste-item:nth-child(1) {
+  border-left-color: #3b82f6; /* Blue for plastic */
+  background: linear-gradient(135deg, var(--bg-primary), rgba(59, 130, 246, 0.03));
+}
+
+.waste-item:nth-child(2) {
+  border-left-color: #f59e0b; /* Amber for paper */
+  background: linear-gradient(135deg, var(--bg-primary), rgba(245, 158, 11, 0.03));
+}
+
+.waste-item:nth-child(3) {
+  border-left-color: #10b981; /* Green for glass */
+  background: linear-gradient(135deg, var(--bg-primary), rgba(16, 185, 129, 0.03));
+}
+
+.waste-item:nth-child(4) {
+  border-left-color: #ef4444; /* Red for metal */
+  background: linear-gradient(135deg, var(--bg-primary), rgba(239, 68, 68, 0.03));
 }
 
 .waste-progress {
   width: 100%;
-  height: 4px;
+  height: 8px;
   background: var(--bg-tertiary);
   border-radius: var(--radius-full);
   overflow: hidden;
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 /* Modal content default border-radius for mobile bottom sheet */
@@ -1428,7 +1855,6 @@ body {
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ===== Settings Modal ===== */
 .modal {
   position: fixed;
   top: 0;
@@ -1436,12 +1862,14 @@ body {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   display: none;
   align-items: flex-end;
   justify-content: center;
-  z-index: 1000;
+  z-index: 1000; /* Visual fix: Modals at 1000 level */
   transition: var(--transition);
+  overflow-y: auto; /* Visual fix: Allow scrolling if modal content is tall */
 }
 
 /* Confirmation modal centered */
@@ -1466,6 +1894,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  margin: auto 0 0 0; /* Visual fix: Align to bottom on mobile */
 }
 
 .modal.show .modal-content {
@@ -1479,11 +1908,17 @@ body {
   padding: 20px;
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
+  gap: 12px; /* Visual fix: Prevent title and close button from touching */
+  min-height: 64px; /* Visual fix: Consistent header height */
 }
 
 .modal-header h3 {
   font-size: 20px;
   font-weight: 600;
+  flex: 1;
+  overflow: hidden; /* Visual fix: Prevent title overflow */
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .btn-close-modal {
@@ -1498,10 +1933,17 @@ body {
   cursor: pointer;
   color: var(--text-primary);
   transition: var(--transition);
+  flex-shrink: 0; /* Visual fix: Prevent button from shrinking */
 }
 
 .btn-close-modal:hover {
   background: var(--bg-tertiary);
+}
+
+/* Visual fix: Add focus state for modal close button */
+.btn-close-modal:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
 }
 
 .modal-body {
@@ -1566,9 +2008,11 @@ body {
   transition: var(--transition);
 }
 
-.setting-select:focus {
+.setting-select:focus,
+.setting-select:focus-visible {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+  outline: none; /* Visual fix: Custom focus style */
 }
 
 /* ===== Toggle Switch ===== */
@@ -1617,6 +2061,11 @@ body {
 
 .toggle input:checked + .toggle-slider:before {
   transform: translateX(20px);
+}
+
+/* Visual fix: Add focus state for toggle switches */
+.toggle input:focus-visible + .toggle-slider {
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
 /* ===== Info Items ===== */
@@ -1759,6 +2208,7 @@ body {
   visibility: visible !important;
   position: relative !important;
   z-index: 10 !important;
+  min-height: 48px; /* Visual fix: Ensure buttons are easy to tap */
 }
 
 /* ===== Waste Type Selection Modal ===== */
@@ -1803,6 +2253,12 @@ body {
   border-color: var(--primary);
 }
 
+/* Visual fix: Add focus state for waste type selection */
+.waste-option:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
 /* ===== Barcode Info Display ===== */
 .barcode-info-row {
   display: flex;
@@ -1830,8 +2286,11 @@ body {
   margin-left: 16px;
 }
 
-/* Ensure barcode result modal is on top */
-#barcode-result-modal { z-index: 1001; }
+/* Visual fix: Consistent z-index hierarchy */
+#barcode-result-modal { z-index: 1000; } /* Modals use 1000-1999 */
+#barcode-manual-entry-modal { z-index: 1000; }
+#waste-type-modal { z-index: 1000; }
+#confirmation-modal { z-index: 1000; }
  
 /* ===== Loading State ===== */
 .loading-state {

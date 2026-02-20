@@ -1,9 +1,6 @@
 // Multi-language support module
 // Supports RU and EN with automatic detection
 
-import { CONFIG } from './constants.js';
-
-
 const translations = {
   ru: {
     'app.title_long': 'EcoFriend - Экологичное будущее',
@@ -78,6 +75,13 @@ const translations = {
     'scanner.searching_product': 'Ищем товар в базе данных...',
     'scanner.manual_entry': 'Ввести вручную',
     'scanner.enter_barcode': 'Введите номер штрихкода',
+    'scanner.scan_or_type': 'Сканируйте или введите штрихкод:',
+    'scanner.search': 'Поиск',
+    'scanner.cancel': 'Отмена',
+    'scanner.barcode_placeholder': '13-значный штрихкод',
+    'scanner.intro_title': 'Держите отход ровно',
+    'scanner.intro_subtext': 'Расположите бутылку по центру кадра для лучшего результата',
+    'scanner.intro_button': 'Понятно!',
     
     // Stats
     'stats.title': 'Статистика',
@@ -87,11 +91,16 @@ const translations = {
     'stats.total_items': 'Всего предметов',
     'stats.total_weight': 'Общий вес',
     'stats.total_points': 'Всего баллов',
+    'stats.tanks_filled': 'Собрано баков',
     'stats.by_type': 'По типам отходов',
     'stats.history': 'История сканирований',
     'stats.activity': 'Активность за период',
     'stats.no_data_period': 'Нет данных за выбранный период',
     'stats.empty': 'История пуста',
+    'stats.composition': 'Состав отходов', // NEW: Waste composition section
+    'stats.daily_avg': 'Сканирований в день', // NEW: Daily average metric
+    'stats.efficiency': 'Коэфф.эффект-я', // NEW: Efficiency metric
+    'stats.most_common': 'Главный вид', // NEW: Most common waste type
     
     // Profile
     'profile.title': 'Профиль',
@@ -103,6 +112,12 @@ const translations = {
     'profile.co2_saved': 'Сохранено CO₂',
     'profile.trees_saved': 'Деревьев спасено',
     'profile.no_badge': 'Без значка',
+    'profile.inventory': 'Инвентарь',
+    'profile.inventory_desc': 'Ваши активные усилители',
+    'profile.no_boosters': 'У вас нет усилителей. Купите их в магазине!',
+    'profile.booster_active': 'Активен',
+    'profile.booster_activate': 'Активировать',
+    'profile.booster_charge': 'Заряд',
     
     // Achievements
     'achievement.newbie': 'Новичок',
@@ -181,6 +196,7 @@ const translations = {
     'shop.themes': 'Темы',
     'shop.avatars': 'Аватары',
     'shop.badges': 'Значки профиля',
+    'shop.boosters': 'Усилители', // NEW: Booster category
     'shop.buy': 'Купить',
     'shop.apply': 'Применить',
     'shop.active': 'Используется',
@@ -193,13 +209,89 @@ const translations = {
     'shop.not_enough_coins': '❌ Недостаточно ЭкоМонет',
     'shop.default_avatar': 'По умолчанию',
     'shop.owned': 'Куплено',
+    // Avatars - existing
     'shop.avatar_eco_hero': 'Эко-герой',
     'shop.avatar_tree': 'Дерево',
     'shop.avatar_recycle': 'Переработка',
     'shop.avatar_earth': 'Планета',
+    // Avatars - NEW
+    'shop.avatar_panda': 'Панда',
+    'shop.avatar_bee': 'Пчела',
+    'shop.avatar_leaf': 'Листок',
+    'shop.avatar_flower': 'Цветок',
+    'shop.avatar_sun': 'Солнце',
+    // Badges - existing
     'shop.badge_eco_hero': 'Эко-герой',
     'shop.badge_zero_waste': 'Без отходов',
     'shop.badge_planet_lover': 'Любитель планеты',
+    // Badges - NEW
+    'shop.badge_green_champion': 'Зеленый чемпион',
+    'shop.badge_eco_warrior': 'Эко-воин',
+    'shop.badge_nature_guardian': 'Страж природы',
+    // Boosters - NEW
+    'shop.booster_double_xp': 'Двойной опыт',
+    'shop.booster_double_xp_desc': 'Удваивает получаемые баллы в течение часа',
+    'shop.booster_lucky_scan': 'Удачное сканирование',
+    'shop.booster_lucky_scan_desc': 'Повышает шанс получить бонусные награды',
+    'shop.booster_coin_magnet': 'Магнит монет',
+    'shop.booster_coin_magnet_desc': '+50% ЭкоМонет в течение 30 минут',
+    'shop.booster_eco_shield': 'Эко-щит',
+    'shop.booster_eco_shield_desc': 'Защищает вашу серию от прерывания на 1 день',
+    // Themes - NEW
+    'theme.forest': 'Лес',
+    'theme.lavender': 'Лаванда',
+    // Promo codes - NEW
+    'promo.title': 'Промокод',
+    'promo.description': 'Одноразовый код для получения бонусов (первый успевший)',
+    'promo.placeholder': 'ВВЕДИТЕ КОД',
+    'promo.redeem': 'Применить',
+    'reports.title': 'Отчеты',
+    'reports.monthly_title': 'Ежемесячный PDF отчет',
+    'reports.generate': 'Создать отчет',
+    'reports.generating': 'Генерация...',
+    'reports.saved': '✅ Отчет сохранен',
+    'reports.error': '❌ Ошибка создания отчета',
+    'reports.no_data': 'Нет данных за этот месяц',
+    'tanks.title': 'Виртуальные баки',
+    'tanks.edit': 'Настроить',
+    'tanks.settings': 'Настройки баков',
+    'tanks.save': 'Сохранить',
+    'tanks.filled': 'Заполнено',
+    'tanks.full': 'Бак заполнен! +{coins} ЭкоМонет',
+    'tanks.reset': 'Бак опустошен',
+    'tanks.empty': 'Пока нет баков',
+    'tanks.create': 'Создать бак',
+    'tanks.add': 'Добавить бак',
+    'tanks.list': 'Ваши баки',
+    'tanks.type': 'Тип',
+    'tanks.capacity': 'Вместимость',
+    'tanks.items': 'шт',
+    'tanks.reward': 'Награда',
+    'tanks.exists': 'Бак для этого типа уже создан',
+    'tanks.added': '✅ Бак добавлен',
+    'tanks.select_type': '⚠️ Выберите тип отходов',
+    'tanks.invalid_capacity': '⚠️ Укажите вместимость от 1 до 500',
+    'tanks.remove': 'Удалить',
+    'tanks.removed': '✅ Бак удален',
+    'tanks.capacity_short': 'Вместимость',
+    'tanks.full_ready': 'Бак заполнен! Очистите его',
+    'tanks.full_pending': 'Бак заполнен. Очистите, чтобы продолжить',
+    'tanks.clean': 'Очистить бак',
+    'tanks.cleaned': '✅ Бак очищен +{coins} ЭкоМонет',
+    'tanks.reset': '✅ Бак сброшен',
+    'map.title': 'Карта переработки',
+    'map.filter_all': 'Все',
+    'map.filter_plastic': 'Пластик',
+    'map.filter_paper': 'Бумага',
+    'map.filter_glass': 'Стекло',
+    'map.filter_metal': 'Металл',
+    'map.filter_disposal': 'Пункты утилизации',
+    'map.loading': 'Загрузка карты...',
+    'map.searching': 'Ищем места рядом...',
+    'map.no_location': 'Геолокация недоступна',
+    'map.key_missing': 'Нужен ключ Google Maps API',
+    'map.nearest': 'Ближайший пункт: {distance} км',
+    'map.no_results': 'Нет точек поблизости',
     'generic.enabled': 'включено',
     'generic.disabled': 'отключено',
     'generic.changed': 'изменен',
@@ -306,12 +398,17 @@ const translations = {
     'notif.sync_error': '⚠️ Ошибка синхронизации',
     'notif.sync_complete_no_scans': '✅ Синхронизация завершена!',
     
-    // Eco facts
+    // Eco facts - FIXED: Added missing translations
     'fact.plastic_ocean': 'Каждый год в океан попадает 8 млн тонн пластика',
     'fact.plastic_decompose': 'Пластиковая бутылка разлагается 450 лет',
     'fact.paper_trees': '1 тонна бумаги = 17 деревьев',
     'fact.recycle_saves': 'Переработка экономит 95% энергии',
     'fact.glass_forever': 'Стекло можно перерабатывать бесконечно',
+    'fact.energy_from_plastic': 'Переработка 1 тонны пластика экономит 5774 кВт*ч энергии',
+    'fact.daily_waste': 'Каждый человек производит около 2 кг мусора в день',
+    'fact.aluminum_can_life': 'Алюминиевая банка полностью разлагается через 200 лет',
+    'fact.glass_air_pollution': 'Переработка стекла снижает загрязнение воздуха на 20%',
+    'fact.recycled_paper_energy': 'Бумага из переработанной макулатуры использует на 70% меньше энергии',
     'fact.did_you_know': 'Знали ли вы?',
     'fact.got_it': 'Понятно',
 
@@ -343,6 +440,18 @@ const translations = {
     'nav.leaderboard': 'Лидеры',
     'nav.quests': 'Квесты',
     'nav.battles': 'Битвы',
+    'nav.map': 'Карта',
+    'nav.challenges': 'Вызовы',
+    
+    // Challenges - NEW
+    'challenges.monthly': 'Ежемесячный вызов',
+    'challenges.join': 'Присоединиться',
+    'challenges.leave': 'Покинуть',
+    'challenges.rewards': 'Награды',
+    'challenges.joined': 'Вы участник этого вызова',
+    'challenges.progress': 'Общий прогресс',
+    'challenges.personal': 'Ваш вклад',
+    'challenges.goal': 'Цель',
 
     // Generic
     'generic.error_loading_app': 'Ошибка загрузки',
@@ -353,6 +462,7 @@ const translations = {
     'generic.level_abbr': 'Уровень',
     'generic.points_abbr': 'б',
     'generic.kg': 'кг',
+    'generic.missing': 'отсутствует',
     'generic.unavailable': 'Недоступно',
     'generic.clear_cache_confirm': 'Очистить кэш? Несинхронизированные данные будут потеряны.',
     'generic.cache_cleared': '✅ Кэш очищен',
@@ -467,6 +577,13 @@ const translations = {
     'scanner.searching_product': 'Searching product in database...',
     'scanner.manual_entry': 'Manual Entry',
     'scanner.enter_barcode': 'Enter barcode number',
+    'scanner.scan_or_type': 'Scan or type barcode:',
+    'scanner.search': 'Search',
+    'scanner.cancel': 'Cancel',
+    'scanner.barcode_placeholder': '13-digit barcode',
+    'scanner.intro_title': 'Hold the Waste Straight',
+    'scanner.intro_subtext': 'Position the bottle in the center of the frame for best results',
+    'scanner.intro_button': 'Got it!',
     
     // Stats
     'stats.title': 'Statistics',
@@ -476,11 +593,16 @@ const translations = {
     'stats.total_items': 'Total items',
     'stats.total_weight': 'Total weight',
     'stats.total_points': 'Total points',
+    'stats.tanks_filled': 'Tanks collected',
     'stats.by_type': 'By waste type',
     'stats.history': 'Scan history',
     'stats.activity': 'Activity for period',
     'stats.no_data_period': 'No data for the selected period',
     'stats.empty': 'History is empty',
+    'stats.composition': 'Waste Composition', // NEW: Waste composition section
+    'stats.daily_avg': 'Scans per day', // NEW: Daily average metric
+    'stats.efficiency': 'Efficiency Ratio', // NEW: Efficiency metric
+    'stats.most_common': 'Top Waste Type', // NEW: Most common waste type
     
     // Profile
     'profile.title': 'Profile',
@@ -492,6 +614,12 @@ const translations = {
     'profile.co2_saved': 'CO₂ Saved',
     'profile.trees_saved': 'Trees Saved',
     'profile.no_badge': 'No Badge',
+    'profile.inventory': 'Inventory',
+    'profile.inventory_desc': 'Your active boosters',
+    'profile.no_boosters': 'You have no boosters. Buy them in the shop!',
+    'profile.booster_active': 'Active',
+    'profile.booster_activate': 'Activate',
+    'profile.booster_charge': 'Charge',
     
     // Achievements
     'achievement.newbie': 'Newbie',
@@ -570,6 +698,7 @@ const translations = {
     'shop.themes': 'Themes',
     'shop.avatars': 'Avatars',
     'shop.badges': 'Profile Badges',
+    'shop.boosters': 'Boosters', // NEW: Booster category
     'shop.buy': 'Buy',
     'shop.apply': 'Apply',
     'shop.active': 'Active',
@@ -582,13 +711,89 @@ const translations = {
     'shop.not_enough_coins': '❌ Not enough EcoCoins',
     'shop.default_avatar': 'Default',
     'shop.owned': 'Owned',
+    // Avatars - existing
     'shop.avatar_eco_hero': 'Eco Hero',
     'shop.avatar_tree': 'Tree',
     'shop.avatar_recycle': 'Recycle',
     'shop.avatar_earth': 'Planet',
+    // Avatars - NEW
+    'shop.avatar_panda': 'Panda',
+    'shop.avatar_bee': 'Bee',
+    'shop.avatar_leaf': 'Leaf',
+    'shop.avatar_flower': 'Flower',
+    'shop.avatar_sun': 'Sun',
+    // Badges - existing
     'shop.badge_eco_hero': 'Eco Hero',
     'shop.badge_zero_waste': 'Zero Waste',
     'shop.badge_planet_lover': 'Planet Lover',
+    // Badges - NEW
+    'shop.badge_green_champion': 'Green Champion',
+    'shop.badge_eco_warrior': 'Eco Warrior',
+    'shop.badge_nature_guardian': 'Nature Guardian',
+    // Boosters - NEW
+    'shop.booster_double_xp': 'Double XP',
+    'shop.booster_double_xp_desc': 'Doubles points earned for 1 hour',
+    'shop.booster_lucky_scan': 'Lucky Scan',
+    'shop.booster_lucky_scan_desc': 'Increased chance for bonus rewards',
+    'shop.booster_coin_magnet': 'Coin Magnet',
+    'shop.booster_coin_magnet_desc': '+50% EcoCoins for 30 minutes',
+    'shop.booster_eco_shield': 'Eco Shield',
+    'shop.booster_eco_shield_desc': 'Protects your streak for 1 day',
+    // Themes - NEW
+    'theme.forest': 'Forest',
+    'theme.lavender': 'Lavender',
+    // Promo codes - NEW
+    'promo.title': 'Promo Code',
+    'promo.description': 'Single-use code for bonuses (first come, first served)',
+    'promo.placeholder': 'ENTER CODE',
+    'promo.redeem': 'Redeem',
+    'reports.title': 'Reports',
+    'reports.monthly_title': 'Monthly PDF Report',
+    'reports.generate': 'Generate report',
+    'reports.generating': 'Generating...',
+    'reports.saved': '✅ Report saved',
+    'reports.error': '❌ Report generation failed',
+    'reports.no_data': 'No data for this month',
+    'tanks.title': 'Virtual Tanks',
+    'tanks.edit': 'Customize',
+    'tanks.settings': 'Tank settings',
+    'tanks.save': 'Save',
+    'tanks.filled': 'Filled',
+    'tanks.full': 'Tank filled! +{coins} EcoCoins',
+    'tanks.reset': 'Tank emptied',
+    'tanks.empty': 'No tanks yet',
+    'tanks.create': 'Create tank',
+    'tanks.add': 'Add tank',
+    'tanks.list': 'Your tanks',
+    'tanks.type': 'Type',
+    'tanks.capacity': 'Capacity',
+    'tanks.items': 'items',
+    'tanks.reward': 'Reward',
+    'tanks.exists': 'Tank for this type already exists',
+    'tanks.added': '✅ Tank added',
+    'tanks.select_type': '⚠️ Select waste type',
+    'tanks.invalid_capacity': '⚠️ Specify capacity from 1 to 500',
+    'tanks.remove': 'Remove',
+    'tanks.removed': '✅ Tank removed',
+    'tanks.capacity_short': 'Capacity',
+    'tanks.full_ready': 'Tank is full! Clean it',
+    'tanks.full_pending': 'Tank is full. Clean to continue',
+    'tanks.clean': 'Clean tank',
+    'tanks.cleaned': '✅ Tank cleaned +{coins} EcoCoins',
+    'tanks.reset': '✅ Tank reset',
+    'map.title': 'Recycling Map',
+    'map.filter_all': 'All',
+    'map.filter_plastic': 'Plastic',
+    'map.filter_paper': 'Paper',
+    'map.filter_glass': 'Glass',
+    'map.filter_metal': 'Metal',
+    'map.filter_disposal': 'Disposal sites',
+    'map.loading': 'Loading map...',
+    'map.searching': 'Searching nearby places...',
+    'map.no_location': 'Geolocation unavailable',
+    'map.key_missing': 'Google Maps API key required',
+    'map.nearest': 'Nearest point: {distance} km',
+    'map.no_results': 'No nearby points',
     'generic.enabled': 'enabled',
     'generic.disabled': 'disabled',
     'generic.changed': 'changed',
@@ -695,12 +900,17 @@ const translations = {
     'notif.sync_error': '⚠️ Sync error',
     'notif.sync_complete_no_scans': '✅ Sync complete!',
     
-    // Eco facts
+    // Eco facts - FIXED: Added missing translations
     'fact.plastic_ocean': '8 million tons of plastic enter the ocean each year',
     'fact.plastic_decompose': 'Plastic bottles take 450 years to decompose',
     'fact.paper_trees': '1 ton of paper = 17 trees',
     'fact.recycle_saves': 'Recycling saves 95% of energy',
     'fact.glass_forever': 'Glass can be recycled infinitely',
+    'fact.energy_from_plastic': 'Recycling 1 ton of plastic saves 5774 kWh of energy',
+    'fact.daily_waste': 'Each person produces about 2 kg of waste daily',
+    'fact.aluminum_can_life': 'An aluminum can takes 200 years to fully decompose',
+    'fact.glass_air_pollution': 'Glass recycling reduces air pollution by 20%',
+    'fact.recycled_paper_energy': 'Recycled paper uses 70% less energy than virgin paper',
     'fact.did_you_know': 'Did you know?',
     'fact.got_it': 'Got it',
 
@@ -732,6 +942,18 @@ const translations = {
     'nav.leaderboard': 'Leaders',
     'nav.quests': 'Quests',
     'nav.battles': 'Battles',
+    'nav.map': 'Map',
+    'nav.challenges': 'Challenges',
+    
+    // Challenges - NEW
+    'challenges.monthly': 'Monthly Challenge',
+    'challenges.join': 'Join Challenge',
+    'challenges.leave': 'Leave Challenge',
+    'challenges.rewards': 'Rewards',
+    'challenges.joined': 'You are a participant in this challenge',
+    'challenges.progress': 'Global Progress',
+    'challenges.personal': 'Your Contribution',
+    'challenges.goal': 'Goal',
 
     // Generic
     'generic.error_loading_app': 'Application Error',
@@ -742,6 +964,7 @@ const translations = {
     'generic.level_abbr': 'Level',
     'generic.points_abbr': 'pts',
     'generic.kg': 'kg',
+    'generic.missing': 'missing',
     'generic.unavailable': 'Unavailable',
     'generic.clear_cache_confirm': 'Clear cache? Unsynced data will be lost.',
     'generic.cache_cleared': '✅ Cache cleared',
@@ -849,8 +1072,8 @@ class LanguageManager {
 
   // Special method for HTML content to avoid escaping
   th(key) {
-    const text = (this.translations[this.currentLang] && this.translations[this.currentLang][key])
-      || (this.translations['en'] && this.translations['en'][key])
+    const text = (translations[this.currentLang] && translations[this.currentLang][key])
+      || (translations['en'] && translations['en'][key])
       || key;
     return text;
   }

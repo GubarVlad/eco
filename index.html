@@ -4,17 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#22c55e">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#FFFFFF">
   
   <!-- PWA Meta Tags -->
-  <link rel="manifest" href="manifest.json" crossorigin="use-credentials">
-  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  <link rel="manifest" href="manifest.json?v=20260216" crossorigin="use-credentials">
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="EcoFriend">
   <meta name="application-name" content="EcoFriend">
-  <meta name="msapplication-TileColor" content="#22c55e">
-  <meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+  <meta name="msapplication-TileColor" content="#FFFFFF">
+  <meta name="msapplication-TileImage" content="icons/icon-144x144.png">
   
   <title data-lang-key="app.title_long">EcoFriend - Экологичное будущее</title>
   <link rel="stylesheet" href="style.css">
@@ -41,7 +41,7 @@
   <!-- Registration Screen -->
   <div id="register-screen" class="screen">
     <div class="screen-header">
-      <button class="btn-back" id="btn-back-from-register">
+      <button class="btn-back" id="btn-back-from-register" aria-label="Go back">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
@@ -75,7 +75,7 @@
   <!-- Login Screen -->
   <div id="login-screen" class="screen">
     <div class="screen-header">
-      <button class="btn-back" id="btn-back-from-login">
+      <button class="btn-back" id="btn-back-from-login" aria-label="Go back">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
@@ -106,12 +106,11 @@
     <div class="screen-header">
       <h2 data-lang-key="main.title">Главная</h2>
       <div class="header-actions">
-        <!-- FIXED: Added streak display on main screen -->
         <div class="streak-mini" id="main-streak-badge" style="display: none;">
           <span class="streak-icon-mini">🔥</span>
           <span id="main-streak-days">0</span>
         </div>
-        <button class="btn-icon" id="btn-notifications">
+        <button class="btn-icon" id="btn-notifications" aria-label="Sync data and view pending scans">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/>
           </svg>
@@ -215,7 +214,7 @@
   <!-- Scanner Screen -->
   <div id="scanner-screen" class="screen">
     <div class="scanner-header">
-      <button class="btn-close" id="btn-close-scanner">
+      <button class="btn-close" id="btn-close-scanner" aria-label="Close camera scanner">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 6L6 18M6 6l12 12"/>
         </svg>
@@ -233,6 +232,41 @@
         </div>
         <div class="scan-frame"></div>
       </div>
+
+      <div class="scanner-loading" id="scanner-loading" aria-hidden="true">
+        <div class="scanner-loading-card">
+          <div class="scanner-loading-visual">
+            <svg class="scanner-loading-svg" viewBox="0 0 200 200" role="img" aria-label="Gears">
+              <g class="gear gear-large">
+                <circle class="gear-body" cx="0" cy="0" r="32" />
+                <circle class="gear-hole" cx="0" cy="0" r="12" />
+                <rect class="gear-tooth" x="-4" y="-48" width="8" height="12" rx="2" />
+                <rect class="gear-tooth" x="-4" y="-48" width="8" height="12" rx="2" transform="rotate(45)" />
+                <rect class="gear-tooth" x="-4" y="-48" width="8" height="12" rx="2" transform="rotate(90)" />
+                <rect class="gear-tooth" x="-4" y="-48" width="8" height="12" rx="2" transform="rotate(135)" />
+                <rect class="gear-tooth" x="-4" y="-48" width="8" height="12" rx="2" transform="rotate(180)" />
+                <rect class="gear-tooth" x="-4" y="-48" width="8" height="12" rx="2" transform="rotate(225)" />
+                <rect class="gear-tooth" x="-4" y="-48" width="8" height="12" rx="2" transform="rotate(270)" />
+                <rect class="gear-tooth" x="-4" y="-48" width="8" height="12" rx="2" transform="rotate(315)" />
+              </g>
+              <g class="gear gear-small">
+                <circle class="gear-body" cx="0" cy="0" r="20" />
+                <circle class="gear-hole" cx="0" cy="0" r="8" />
+                <rect class="gear-tooth" x="-3" y="-32" width="6" height="10" rx="2" />
+                <rect class="gear-tooth" x="-3" y="-32" width="6" height="10" rx="2" transform="rotate(45)" />
+                <rect class="gear-tooth" x="-3" y="-32" width="6" height="10" rx="2" transform="rotate(90)" />
+                <rect class="gear-tooth" x="-3" y="-32" width="6" height="10" rx="2" transform="rotate(135)" />
+                <rect class="gear-tooth" x="-3" y="-32" width="6" height="10" rx="2" transform="rotate(180)" />
+                <rect class="gear-tooth" x="-3" y="-32" width="6" height="10" rx="2" transform="rotate(225)" />
+                <rect class="gear-tooth" x="-3" y="-32" width="6" height="10" rx="2" transform="rotate(270)" />
+                <rect class="gear-tooth" x="-3" y="-32" width="6" height="10" rx="2" transform="rotate(315)" />
+              </g>
+            </svg>
+          </div>
+          <div class="scanner-loading-title">Preparing scanner</div>
+          <div class="scanner-loading-subtitle">Calibrating optics and AI model...</div>
+        </div>
+      </div>
       
       <div class="scanner-result" id="scanner-result"></div>
       
@@ -247,7 +281,7 @@
   <!-- Barcode Scanner Screen -->
   <div id="barcode-screen" class="screen">
     <div class="scanner-header">
-      <button class="btn-close" id="btn-close-barcode">
+      <button class="btn-close" id="btn-close-barcode" aria-label="Close barcode scanner">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 6L6 18M6 6l12 12"/>
         </svg>
@@ -274,6 +308,36 @@
         <button class="btn btn-secondary" id="btn-manual-barcode-entry" data-lang-key="scanner.manual_entry">
           Ввести вручную
         </button>
+      </div>
+
+      <div id="barcode-manual-entry-modal" class="modal" style="display: none;">
+        <div class="modal-content" style="max-width: 90%; width: auto;">
+          <div class="modal-header">
+            <h3 data-lang-key="scanner.manual_entry">Ввести вручную</h3>
+            <button class="btn-close-modal" id="btn-close-barcode-manual">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="barcode-input-section">
+              <label for="manual-barcode-input" style="display: block; margin-bottom: 12px; font-weight: 600; color: #111;" data-lang-key="scanner.scan_or_type">Scan or type barcode:</label>
+              <input 
+                type="text" 
+                id="manual-barcode-input" 
+                placeholder="" 
+                data-lang-placeholder="scanner.barcode_placeholder"
+                style="width: 100%; padding: 12px; font-size: 16px; border: 2px solid #e5e7eb; border-radius: 12px; margin-bottom: 16px;"
+                autocomplete="off"
+              />
+              <div style="display: flex; gap: 10px;">
+                <button class="btn btn-primary" id="btn-submit-barcode" style="flex: 1;" data-lang-key="scanner.search">Search</button>
+                <button class="btn btn-secondary" id="btn-cancel-barcode-manual" style="flex: 1;" data-lang-key="scanner.cancel">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Barcode Result Modal (Pull-up Panel) -->
@@ -371,6 +435,22 @@
             <div class="summary-label" data-lang-key="profile.trees_saved">Деревьев спасено</div>
           </div>
         </div>
+
+        <div class="summary-card">
+          <div class="summary-icon">🛢️</div>
+          <div class="summary-content">
+            <div class="summary-value" id="total-tanks-filled">0</div>
+            <div class="summary-label" data-lang-key="stats.tanks_filled">Собрано баков</div>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon">☁️</div>
+          <div class="summary-content">
+            <div class="summary-value" id="total-co2-saved">0 кг</div>
+            <div class="summary-label" data-lang-key="footprint.co2_saved">CO₂ не попало в атмосферу</div>
+          </div>
+        </div>
       </div>
 
       <div class="section-header">
@@ -386,6 +466,46 @@
           <span data-lang-key="waste.paper_emoji">📄 Бумага</span>
           <span data-lang-key="waste.glass_emoji">🍾 Стекло</span>
           <span data-lang-key="waste.metal_emoji">🥫 Металл</span>
+        </div>
+      </div>
+
+      <!-- Enhanced metrics row: average scans per day, efficiency, streak -->
+      <div class="enhanced-metrics">
+        <div class="metric-card">
+          <div class="metric-icon">📈</div>
+          <div class="metric-content">
+            <div class="metric-value" id="daily-average">0</div>
+            <div class="metric-label">Сканирований в день</div>
+          </div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">⚡</div>
+          <div class="metric-content">
+            <div class="metric-value" id="waste-efficiency">0</div>
+            <div class="metric-label">Коэфф.эффект-я</div>
+          </div>
+        </div>
+        
+        <div class="metric-card">
+          <div class="metric-icon">🎯</div>
+          <div class="metric-content">
+            <div class="metric-value" id="most-common-waste">—</div>
+            <div class="metric-label">Главный вид</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Waste composition chart -->
+      <div class="section-header">
+        <h3 data-lang-key="stats.composition">Состав отходов</h3>
+      </div>
+
+      <div class="composition-chart" id="composition-chart">
+        <canvas id="waste-pie-chart" width="600" height="600" style="max-width: 100%;">
+        </canvas>
+        <div class="composition-legend" id="composition-legend">
+          <!-- Generated dynamically -->
         </div>
       </div>
 
@@ -476,7 +596,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 data-lang-key="settings.title">Настройки</h3>
-        <button class="btn-close-modal" id="btn-close-settings">
+        <button class="btn-close-modal" id="btn-close-settings" aria-label="Close settings">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
@@ -590,7 +710,7 @@
           <h4 data-lang-key="settings.about">О приложении</h4>
           <div class="info-item">
             <span data-lang-key="settings.version">Версия</span>
-            <span>2.0.0</span>
+            <span>1.0.0</span>
           </div>
           <div class="info-item">
             <span data-lang-key="settings.storage">Хранилище</span>
@@ -609,12 +729,11 @@
 
   <!-- Profile Screen -->
   <div id="profile-screen" class="screen">
-    <div class="screen-header" >
+    <div class="screen-header">
       <h2 data-lang-key="profile.title">Профиль</h2>
-      <button class="btn-icon" id="btn-settings">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="12" cy="12" r="3"/>
-          <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>
+      <button class="btn-icon" id="btn-settings" aria-label="Settings">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M19.14 12.936a7.97 7.97 0 0 0 .05-.936 7.97 7.97 0 0 0-.05-.936l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.94 7.94 0 0 0-1.62-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54a7.94 7.94 0 0 0-1.62.94l-2.39-.96a.5.5 0 0 0-.6.22l-1.92 3.32a.5.5 0 0 0 .12.64l2.03 1.58a7.97 7.97 0 0 0-.05.936c0 .318.02.632.05.936l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.5.39 1.05.72 1.62.94l.36 2.54a.5.5 0 0 0 .5.42h3.84a.5.5 0 0 0 .5-.42l.36-2.54c.57-.22 1.11-.55 1.62-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.5A3.5 3.5 0 1 1 15.5 12 3.5 3.5 0 0 1 12 15.5Z" stroke="currentColor" stroke-width="0.6"/>
         </svg>
       </button>
     </div>
@@ -656,6 +775,21 @@
         <button class="btn btn-primary" id="btn-view-shop" data-lang-key="nav.shop">Магазин</button>
       </div>
 
+      <div class="promo-code-card">
+        <div class="promo-code-header">
+          <span class="promo-icon">🎟️</span>
+          <h3 data-lang-key="promo.title">Промокод</h3>
+        </div>
+        <p class="promo-desc" data-lang-key="promo.description">Введите промокод для получения бонусов</p>
+        <div class="promo-input-group">
+          <input type="text" id="promo-code-input" class="promo-input" placeholder="ВВЕДИТЕ КОД" maxlength="20" data-lang-placeholder="promo.placeholder">
+          <button class="btn btn-primary" id="btn-redeem-promo" data-lang-key="promo.redeem">Применить</button>
+        </div>
+        <div class="promo-redeemed-list" id="promo-redeemed-list">
+          <!-- Redeemed codes will be shown here -->
+        </div>
+      </div>
+
       <!-- Eco Footprint Card -->
       <div class="eco-footprint-card" id="btn-view-footprint">
         <div class="footprint-card-header">
@@ -674,6 +808,30 @@
             <span id="preview-trees">0 деревьев</span>
           </div>
         </div>
+      </div>
+
+      <div class="section-header tanks-header">
+        <h3 data-lang-key="tanks.title">Виртуальные баки</h3>
+        <button class="btn btn-secondary" id="btn-edit-tanks" data-lang-key="tanks.edit">Настроить</button>
+      </div>
+
+      <div class="tanks-grid" id="tanks-grid"></div>
+
+      <div class="section-header">
+        <h3 data-lang-key="profile.inventory">Инвентарь</h3>
+        <p class="section-desc" data-lang-key="profile.inventory_desc">Ваши активные усилители</p>
+      </div>
+      
+      <div class="booster-inventory" id="booster-inventory">
+        <!-- Owned boosters will be generated dynamically -->
+      </div>
+
+      <div class="section-header">
+        <h3 data-lang-key="challenges.monthly">Ежемесячный вызов</h3>
+      </div>
+      
+      <div class="challenge-card" id="profile-challenge-card">
+        <!-- Challenge will be rendered here -->
       </div>
 
       <div class="section-header">
@@ -754,6 +912,14 @@
       <div class="shop-grid" id="badges-grid">
         <!-- Badges will be generated dynamically -->
       </div>
+
+      <div class="section-header">
+        <h3 data-lang-key="shop.boosters">Усилители</h3>
+      </div>
+      
+      <div class="shop-grid" id="boosters-grid">
+        <!-- Boosters will be generated dynamically -->
+      </div>
     </div>
   </div>
 
@@ -826,7 +992,7 @@
   <!-- Recycling Guide Screen -->
   <div id="recycling-guide-screen" class="screen">
     <div class="screen-header">
-      <button class="btn-back" data-screen="main-screen">
+      <button class="btn-back" data-screen="main-screen" aria-label="Go back to main">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
@@ -1007,6 +1173,58 @@
     </div>
   </div>
 
+  <div id="challenges-screen" class="screen">
+    <div class="screen-header">
+      <h2 data-lang-key="nav.challenges">Вызовы</h2>
+      <div></div>
+    </div>
+    
+    <div class="screen-content">
+      <div class="section-header">
+        <h3 data-lang-key="challenges.monthly">Ежемесячный вызов</h3>
+        <p class="section-desc" id="challenge-month">Февраль 2026</p>
+      </div>
+      
+      <div class="challenge-card" id="current-challenge">
+        <div class="challenge-header">
+          <div class="challenge-icon">🌍</div>
+          <div class="challenge-title-group">
+            <h3 id="challenge-title">Очищаем планету</h3>
+            <p id="challenge-description">Переработайте как можно больше отходов</p>
+          </div>
+        </div>
+
+        <div class="challenge-progress">
+          <div class="progress-label">
+            <span id="challenge-label">Ваш вклад:</span>
+            <span id="challenge-count">0</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" id="challenge-progress" style="width: 0%"></div>
+          </div>
+          <div class="progress-numbers">
+            <span id="challenge-personal">0</span>
+            <span id="challenge-global">/ 0</span>
+          </div>
+        </div>
+
+        <div id="challenge-status" class="challenge-status">
+          <button class="btn btn-primary btn-full" id="btn-join-challenge" data-lang-key="challenges.join">
+            Присоединиться к вызову
+          </button>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h3 data-lang-key="challenges.rewards">Награды</h3>
+      </div>
+
+      <div class="challenge-rewards" id="challenge-rewards">
+        <!-- Rewards will be generated dynamically -->
+      </div>
+    </div>
+  </div>
+
   <!-- Bottom Navigation -->
   <nav class="bottom-nav" id="bottom-nav">
     <button class="nav-item active" data-screen="main">
@@ -1045,13 +1263,13 @@
     
     <button class="nav-item" data-screen="leaderboard">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="3" y="11" width="4" height="10"></rect>
-        <rect x="10" y="7" width="4" height="14"></rect>
-        <rect x="17" y="3" width="4" height="18"></rect>
+        <rect x="3" y="14" width="4" height="6" rx="1"/>
+        <rect x="10" y="10" width="4" height="10" rx="1"/>
+        <rect x="17" y="6" width="4" height="14" rx="1"/>
       </svg>
-      <span data-lang-key="nav.leaderboard">Лидеры</span>
+      <span data-lang-key="nav.leaderboard">Рейтинг</span>
     </button>
-    
+
     <button class="nav-item" data-screen="profile">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -1087,7 +1305,7 @@
     <div class="modal-content waste-type-modal">
       <div class="modal-header">
         <h3 data-lang-key="scanner.select_waste_type">Выберите тип отходов</h3>
-        <button class="btn-close-modal" id="btn-close-waste-modal">
+        <button class="btn-close-modal" id="btn-close-waste-modal" aria-label="Close waste type modal">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 6L6 18M6 6l12 12"/>
           </svg>
@@ -1106,6 +1324,66 @@
     </div>
   </div>
 
+  <!-- Tanks Settings Modal -->
+  <div id="tanks-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 data-lang-key="tanks.settings">Настройки баков</h3>
+        <button class="btn-close-modal" id="btn-close-tanks" aria-label="Close tanks modal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="tank-form-section">
+          <label class="form-section-label" data-lang-key="tanks.type">Тип отходов</label>
+          <div class="waste-type-selector" id="waste-type-selector">
+            <div class="waste-type-option" data-type="plastic">
+              <span class="waste-type-emoji">♻️</span>
+              <span class="waste-type-name" data-lang-key="waste.plastic">Пластик</span>
+            </div>
+            <div class="waste-type-option" data-type="paper">
+              <span class="waste-type-emoji">📄</span>
+              <span class="waste-type-name" data-lang-key="waste.paper">Бумага</span>
+            </div>
+            <div class="waste-type-option" data-type="glass">
+              <span class="waste-type-emoji">🍾</span>
+              <span class="waste-type-name" data-lang-key="waste.glass">Стекло</span>
+            </div>
+            <div class="waste-type-option" data-type="metal">
+              <span class="waste-type-emoji">🥫</span>
+              <span class="waste-type-name" data-lang-key="waste.metal">Металл</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="tank-form-section">
+          <label class="form-section-label" data-lang-key="tanks.capacity">Вместимость</label>
+          <div class="capacity-presets">
+            <button class="capacity-preset" data-capacity="5">5</button>
+            <button class="capacity-preset" data-capacity="10">10</button>
+            <button class="capacity-preset" data-capacity="15">15</button>
+            <button class="capacity-preset" data-capacity="25">25</button>
+          </div>
+          <div class="capacity-input-group">
+            <input type="number" id="tank-capacity-input" min="1" max="500" value="10" placeholder="Своё значение" />
+            <span class="capacity-unit" data-lang-key="tanks.items">шт</span>
+          </div>
+        </div>
+        
+        <button class="btn btn-primary btn-full btn-add-tank" id="btn-add-tank" data-lang-key="tanks.add">Добавить бак</button>
+
+        <div class="tank-list-divider"></div>
+
+        <div class="section-header">
+          <h4 data-lang-key="tanks.list">Ваши баки</h4>
+        </div>
+        <div id="tank-list" class="tank-list"></div>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script type="module" src="constants.js"></script>
   <script type="module" src="lang.js"></script>
@@ -1114,6 +1392,7 @@
   <script type="module" src="scanner.js"></script>
   <script type="module" src="gamification.js"></script>
   <script type="module" src="barcode.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <script type="module" src="app-extensions.js"></script>
   <script type="module" src="script.js"></script>
   
@@ -1121,7 +1400,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
+        navigator.serviceWorker.register('./service-worker.js')
           .then(registration => {
             console.log('✅ Service Worker registered:', registration.scope);
             
